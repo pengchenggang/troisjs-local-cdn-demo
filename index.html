@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TroisJS</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "vue": "./assets/vue/dist/vue.esm-browser.prod.js",
+        "three": "./assets/three/build/three.module.js",
+        "three/examples/": "./assets/three/examples/"
+      }
+    }
+  </script>
+  <style>
+    html, body { margin:0; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+
+  <div id="app">
+    <renderer ref="renderer" antialias orbit-ctrl alpha resize="window">
+      <camera :position="{ z: 10 }"></camera>
+      <scene>
+        <point-light :position="{ y: 50, z: 50 }"></point-light>
+        <box ref="box" :rotation="{ y: Math.PI / 4, z: Math.PI / 4 }">
+          <lambert-material></lambert-material>
+        </box>
+      </scene>
+    </renderer>
+  </div>
+
+  <script type="module">
+    // import { createApp } from './assets/troisjs/build/trois.module.cdn.js';
+    import { createApp } from './assets/troisjs/build/trois.module.js';
+    createApp({
+      mounted() {
+        const renderer = this.$refs.renderer
+        const box = this.$refs.box.mesh
+        renderer.onBeforeRender(() => {
+          box.rotation.x += 0.01
+        })
+      }
+    }).mount('#app')
+  </script>
+
+</body>
+</html>
